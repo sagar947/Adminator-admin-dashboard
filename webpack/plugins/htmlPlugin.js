@@ -26,7 +26,8 @@ const titles = {
   'dashboard': 'Dashboard',
   'chatbox': 'Chat',
   'intro': 'Home',
-  'details': 'Stock Details'
+  'details': 'Stock Details',
+  'tradebook': 'Trade book'
 };
 
 module.exports = Object.keys(titles).map(title => {
