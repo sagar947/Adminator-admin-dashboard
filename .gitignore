@@ -28,6 +28,6 @@ package-lock.json
 # ----------------------------
 # Project Folders
 # ----------------------------
-
+pm2.json
 build/
 dist/
