@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Dashboard</title>
+    <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"  rel="stylesheet">
+
+    <style>
+      #loader {
+        transition: all 0.3s ease-in-out;
+        opacity: 1;
+        visibility: visible;
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        background: #fff;
+        z-index: 90000;
+      }
+
+      #loader.fadeOut {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: calc(50% - 20px);
+        left: calc(50% - 20px);
+        background-color: #333;
+        border-radius: 100%;
+        -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+        animation: sk-scaleout 1.0s infinite ease-in-out;
+      }
+
+      @-webkit-keyframes sk-scaleout {
+        0% { -webkit-transform: scale(0) }
+        100% {
+          -webkit-transform: scale(1.0);
+          opacity: 0;
+        }
+      }
+
+      @keyframes sk-scaleout {
+        0% {
+          -webkit-transform: scale(0);
+          transform: scale(0);
+        } 100% {
+          -webkit-transform: scale(1.0);
+          transform: scale(1.0);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="app" onload="createTable()">
+    <!-- @TOC -->
+    <!-- =================================================== -->
+    <!--
+      + @Page Loader
+      + @App Content
+          - #Left Sidebar
+              > $Sidebar Header
+              > $Sidebar Menu
+
+          - #Main
+              > $Topbar
+              > $App Screen Content
+    -->
+
+    <!-- @Page Loader -->
+    <!-- =================================================== -->
+    <div id='loader'>
+      <div class="spinner"></div>
+    </div>
+
+    <script>
+      window.addEventListener('load', function load() {
+        const loader = document.getElementById('loader');
+        setTimeout(function() {
+          loader.classList.add('fadeOut');
+        }, 300);
+      });
+    </script>
+
+    <!-- @App Content -->
+    <!-- =================================================== -->
+    <div>
+      <!-- #Main ============================ -->
+      <div class="page-container">
+        <div class="header navbar">
+          <div class="header-container">
+            <ul class="nav-left">
+              <li>
+                <a id='sidebar-toggle' class="sidebar-toggle" href="javascript:void(0);">
+                  <i class="ti-menu"></i>
+                </a>
+              </li>
+
+            </ul>
+            <ul class="nav-right">
+              <li class="notifications dropdown">
+                <span class="counter bgc-red">3</span>
+                <a href="" class="dropdown-toggle no-after" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="ti-bell"></i>
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"> 
+                  <li class="pX-20 pY-15 bdB">
+                    <i class="ti-bell pR-10"></i>
+                    <span class="fsz-sm fw-600 c-grey-900">Notifications</span>
+                  </li>
+                  <li>
+                    <ul class="ovY-a pos-r scrollable lis-n p-0 m-0 fsz-sm">
+                      <li>
+                        <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
+                          <div class="peer mR-15">
+                            <img class="w-3r bdrs-50p" src="https://randomuser.me/api/portraits/men/1.jpg" alt="">
+                          </div>
+                          <div class="peer peer-greed">
+                            <span>
+                              <span class="fw-500">John Doe</span>
+                              <span class="c-grey-600">liked your <span class="text-dark">post</span>
+                              </span>
+                            </span>
+                            <p class="m-0">
+                              <small class="fsz-xs">5 mins ago</small>
+                            </p>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
+                          <div class="peer mR-15">
+                            <img class="w-3r bdrs-50p" src="https://randomuser.me/api/portraits/men/2.jpg" alt="">
+                          </div>
+                          <div class="peer peer-greed">
+                            <span>
+                              <span class="fw-500">Moo Doe</span>
+                              <span class="c-grey-600">liked your <span class="text-dark">cover image</span>
+                              </span>
+                            </span>
+                            <p class="m-0">
+                              <small class="fsz-xs">7 mins ago</small>
+                            </p>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
+                          <div class="peer mR-15">
+                            <img class="w-3r bdrs-50p" src="https://randomuser.me/api/portraits/men/3.jpg" alt="">
+                          </div>
+                          <div class="peer peer-greed">
+                            <span>
+                              <span class="fw-500">Lee Doe</span>
+                              <span class="c-grey-600">commented on your <span class="text-dark">video</span>
+                              </span>
+                            </span>
+                            <p class="m-0">
+                              <small class="fsz-xs">10 mins ago</small>
+                            </p>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="pX-20 pY-15 ta-c bdT">
+                    <span>
+                      <a href="" class="c-grey-600 cH-blue fsz-sm td-n">View All Notifications <i class="ti-angle-right fsz-xs mL-10"></i></a>
+                    </span>
+                  </li>
+                </ul>
+              </li>
+              <li class="notifications dropdown">
+                <span class="counter bgc-blue">3</span>
+                <a href="" class="dropdown-toggle no-after" data-bs-toggle="dropdown">
+                  <i class="ti-email"></i>
+                </a>
+
+                <ul class="dropdown-menu">
+                  <li class="pX-20 pY-15 bdB">
+                    <i class="ti-email pR-10"></i>
+                    <span class="fsz-sm fw-600 c-grey-900">Emails</span>
+                  </li>
+                  <li>
+                    <ul class="ovY-a pos-r scrollable lis-n p-0 m-0 fsz-sm">
+                      <li>
+                        <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
+                          <div class="peer mR-15">
+                            <img class="w-3r bdrs-50p" src="https://randomuser.me/api/portraits/men/1.jpg" alt="">
+                          </div>
+                          <div class="peer peer-greed">
+                            <div>
+                              <div class="peers jc-sb fxw-nw mB-5">
+                                <div class="peer">
+                                  <p class="fw-500 mB-0">John Doe</p>
+                                </div>
+                                <div class="peer">
+                                  <small class="fsz-xs">5 mins ago</small>
+                                </div>
+                              </div>
+                              <span class="c-grey-600 fsz-sm">
+                                Want to create your own customized data generator for your app...
+                              </span>
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
+                          <div class="peer mR-15">
+                            <img class="w-3r bdrs-50p" src="https://randomuser.me/api/portraits/men/2.jpg" alt="">
+                          </div>
+                          <div class="peer peer-greed">
+                            <div>
+                              <div class="peers jc-sb fxw-nw mB-5">
+                                <div class="peer">
+                                  <p class="fw-500 mB-0">Moo Doe</p>
+                                </div>
+                                <div class="peer">
+                                  <small class="fsz-xs">15 mins ago</small>
+                                </div>
+                              </div>
+                              <span class="c-grey-600 fsz-sm">
+                                Want to create your own customized data generator for your app...
+                              </span>
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
+                          <div class="peer mR-15">
+                            <img class="w-3r bdrs-50p" src="https://randomuser.me/api/portraits/men/3.jpg" alt="">
+                          </div>
+                          <div class="peer peer-greed">
+                            <div>
+                              <div class="peers jc-sb fxw-nw mB-5">
+                                <div class="peer">
+                                  <p class="fw-500 mB-0">Lee Doe</p>
+                                </div>
+                                <div class="peer">
+                                  <small class="fsz-xs">25 mins ago</small>
+                                </div>
+                              </div>
+                              <span class="c-grey-600 fsz-sm">
+                                Want to create your own customized data generator for your app...
+                              </span>
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="pX-20 pY-15 ta-c bdT">
+                    <span>
+                      <a href="email.html" class="c-grey-600 cH-blue fsz-sm td-n">View All Email <i class="fs-xs ti-angle-right mL-10"></i></a>
+                    </span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ### $App Screen Content ### -->
+        <main class='main-content bgc-grey-100'>
+          <div id='mainContent'>
+            <div class="row gap-20 masonry pos-r">
+              <div class="masonry-sizer col-md-6"></div>
+              <div class="masonry-item col-12">
+                <div class="bd bgc-white">
+                  <div class="peers fxw-nw@lg+ ai-s">
+                    <div class="peer peer-greed w-70p@lg+ w-100@lg- p-20">
+                      <div class="layers">
+                        <div class="layer w-100">
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">STOCKS &amp; ETF</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">CRYPTO</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c pull-right">MY ACCOUNT</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c pull-right">WIDGETS</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c pull-right"><a href="dashboard.html">MY DASHBOARD</a></span>
+                          <hr>
+                        </div>
+                        <div class="layer w-100 mB-2">
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">INDICES</span>
+                          <hr>
+                        </div>
+                        <div class="layer w-100">
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">SOCIAL TRENDS</span>
+                          <hr>
+                        </div>
+                        <div class="layer w-100">
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">MY DASHBOARD</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">TRADE BOOK</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">TRADE IDEAS</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">TRADE ALERTS</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c"><a href="chatbox.html">CHAT BOX</a></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="masonry-item  w-100">
+                <div class="row gap-20">
+                  <!-- #Toatl Visits ==================== -->
+                  <div class='col-md-4'>
+                    <div class="layers bd bgc-white p-20">
+                      <div class="layer w-100 mB-10">
+                        <h4 class="lh-1">DOW</h4>
+                        <small>ZUM STAND Jun 21, 2021 11:01 AM ET</small>
+                      </div>
+                      <div class="layer w-100">
+                        <div class="peers ai-sb fxw-nw">
+                          <div class="peer peer-greed">
+                            <span id="sparklinedash"></span>
+                          </div>
+                          <div class="peer">
+                            <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-green-50 c-green-500">+0.60%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-md-4'>
+                    <div class="layers bd bgc-white p-20">
+                      <div class="layer w-100 mB-10">
+                        <h4 class="lh-1">NASDAQ</h4>
+                        <small>ZUM STAND Jun 21, 2021 11:01 AM ET</small>
+                      </div>
+                      <div class="layer w-100">
+                        <div class="peers ai-sb fxw-nw">
+                          <div class="peer peer-greed">
+                            <span id="sparklinedash2"></span>
+                          </div>
+                          <div class="peer">
+                            <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-red-50 c-red-500">-7%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-md-4'>
+                    <div class="layers bd bgc-white p-20">
+                      <div class="layer w-100 mB-10">
+                        <h4 class="lh-1">S&amp;P</h4>
+                        <small>ZUM STAND Jun 21, 2021 11:01 AM ET</small>
+                      </div>
+                      <div class="layer w-100">
+                        <div class="peers ai-sb fxw-nw">
+                          <div class="peer peer-greed">
+                            <span id="sparklinedash3"></span>
+                          </div>
+                          <div class="peer">
+                            <span class="d-ib lh-0 va-m fw-600 bdrs-10em pX-15 pY-15 bgc-purple-50 c-purple-500">~12%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="masonry-item col-12">
+                <div class="bd bgc-white">
+                  <div class="peers fxw-nw@lg+ ai-s">
+                    <div class="peer peer-greed w-70p@lg+ w-100@lg- p-20">
+                      <table id="dataTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                          <tr>
+                            <th>Symbol</th>
+                            <th>Last Price</th>
+                            <th>Change</th>
+                            <th>Watching</th>
+                            <th>Likes</th>
+                            <th>Shares</th>
+                            <th>Create Alert</th>
+                            <th>post idea</th>
+                            <th>Watchlist</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td><a href="details.html">LDL</a></td>
+                            <td>60.50</td>
+                            <td>81.74%</td>
+                            <td>154</td>
+                            <td>250</td>
+                            <td>250</td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">post idea</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Watchlist" class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <i class="ti-plus"></i>
+                              </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><a href="details.html">RAVN</a></td>
+                            <td>57.85</td>
+                            <td>49.79%</td>
+                            <td>154</td>
+                            <td>250</td>
+                            <td>250</td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">post idea</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Watchlist" class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <i class="ti-plus"></i>
+                              </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><a href="details.html">TRCH</a></td>
+                            <td>9.03</td>
+                            <td>44.02%</td>
+                            <td>154</td>
+                            <td>250</td>
+                            <td>250</td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">post idea</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Watchlist" class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <i class="ti-plus"></i>
+                              </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><a href="details.html">AEI</a></td>
+                            <td>57.85</td>
+                            <td>49.79%</td>
+                            <td>154</td>
+                            <td>250</td>
+                            <td>250</td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">post idea</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Watchlist" class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <i class="ti-plus"></i>
+                              </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><a href="details.html">AVXL</a></td>
+                            <td>57.85</td>
+                            <td>49.79%</td>
+                            <td>154</td>
+                            <td>250</td>
+                            <td>250</td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalCreateAler" data-bs-toggle="modal" role="button">Create Alert</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">post idea</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Watchlist" class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <i class="ti-plus"></i>
+                              </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><a href="details.html">LKCO</a></td>
+                            <td>57.85</td>
+                            <td>49.79%</td>
+                            <td>154</td>
+                            <td>250</td>
+                            <td>250</td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">post idea</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Watchlist" class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <i class="ti-plus"></i>
+                              </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><a href="details.html">GSAT</a></td>
+                            <td>57.85</td>
+                            <td>49.79%</td>
+                            <td>154</td>
+                            <td>250</td>
+                            <td>250</td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">post idea</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Watchlist" class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <i class="ti-plus"></i>
+                              </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><a href="details.html">LDL</a></td>
+                            <td>57.85</td>
+                            <td>49.79%</td>
+                            <td>154</td>
+                            <td>250</td>
+                            <td>250</td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">post idea</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Watchlist" class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <i class="ti-plus"></i>
+                              </span>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td><a href="details.html">RAVN</a></td>
+                            <td>57.85</td>
+                            <td>49.79%</td>
+                            <td>154</td>
+                            <td>250</td>
+                            <td>250</td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span class="buttons bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">post idea</a>
+                              </span>
+                            </td>
+                            <td>
+                              <span data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Watchlist" class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                <i class="ti-plus"></i>
+                              </span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="masonry-item w-100">
+                <div class="row gap-20">
+                  <div class='col-md-6'>
+                    <div class="layers bd bgc-white p-20">
+                      <div class="layer w-100 mB-10">
+                        <span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c">MY WATCHLIST</span>
+                        <span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c rounded-pill">16</span>
+                      </div>
+                      <div class="layer w-100">
+                        <div class="accordion" id="accordionExample">
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <div class="layer w-100 d-flex flex-row justify-content-between mB-10">
+                                  <span class="icons">
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-up c-green-500"></i> <strong>123</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-down c-red-500"></i> <strong>64</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-share"></i> <strong>SHARED 345</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-eye c-green-500"></i> <strong>188</strong></small>
+                                    </span>
+                                  </span>
+                                  <span class="buttons">
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c mR-10">
+                                      <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                                    </span>
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                      <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">Post Idea</a>
+                                    </span>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <small>Westlake Chemical Corp. NYSE Updated Jun 21, 2021, 10:23 PM</small>
+                                </div>
+                                <div class="layer w-100">
+                                  <h1><strong>WLK</strong> 92.97</h1>
+                                </div>
+                                <div class="layer w-100 mB-10">
+                                  <span class="mR-10">
+                                    <small class="c-green-500">
+                                      <i class="fa fa-level-up"></i> <strong>0.25(1.08%)</strong>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Post-Market</small>
+                                    <small class="c-red-500">
+                                      <span><i class="fa fa-level-down"></i> <strong>0.20(0.85%)</strong></span>
+                                    </small>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <span class="mR-10">
+                                    <small>Price</small>
+                                    <small class="c-green-500">
+                                      <strong>0.25(1.08%)</strong> <i class="fa fa-level-up"></i> 
+                                    </small>
+                                  </span>
+                                  <span class="mR-10">
+                                    <small>Sentiment</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i> </span>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Message Volume</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i></span>
+                                    </small>
+                                  </span>
+                                </div>
+                              </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                                <div class="layer w-100">
+                                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                        Price
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                                        Sentiment
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                        Message Volume
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="tab-content" id="myTabContent">
+                                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="layer w-100 p-20">
+                                      <canvas id="line-chart" height="220"></canvas>
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <div class="layer w-100 d-flex flex-row justify-content-between mB-10">
+                                  <span class="icons">
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-up c-green-500"></i> <strong>123</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-down c-red-500"></i> <strong>64</strong></small>
+                                    </span>
+                                    <span>
+                                      <small><i class="fa fa-share"></i> <strong>SHARED 345</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-eye c-green-500"></i> <strong>188</strong></small>
+                                    </span>
+                                  </span>
+                                  <span class="buttons">
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c mR-10">
+                                      <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                                    </span>
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                      <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">Post Idea</a>
+                                    </span>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <small>Westlake Chemical Corp. NYSE Updated Jun 21, 2021, 10:23 PM</small>
+                                </div>
+                                <div class="layer w-100">
+                                  <h1><strong>AAPL</strong> 92.97</h1>
+                                </div>
+                                <div class="layer w-100 mB-10">
+                                  <span class="mR-10">
+                                    <small class="c-green-500">
+                                      <i class="fa fa-level-up"></i> <strong>0.25(1.08%)</strong>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Post-Market</small>
+                                    <small class="c-red-500">
+                                      <span><i class="fa fa-level-down"></i> <strong>0.20(0.85%)</strong></span>
+                                    </small>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <span class="mR-10">
+                                    <small>Price</small>
+                                    <small class="c-green-500">
+                                      <strong>0.25(1.08%)</strong> <i class="fa fa-level-up"></i> 
+                                    </small>
+                                  </span>
+                                  <span class="mR-10">
+                                    <small>Sentiment</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i> </span>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Message Volume</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i></span>
+                                    </small>
+                                  </span>
+                                </div>
+                              </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                                <div class="layer w-100">
+                                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                        Price
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                                        Sentiment
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                        Message Volume
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="tab-content" id="myTabContent">
+                                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="layer w-100 p-20">
+                                      <canvas id="line-chart" height="220"></canvas>
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                <div class="layer w-100 d-flex flex-row justify-content-between mB-10">
+                                  <span class="icons">
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-up c-green-500"></i> <strong>123</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-down c-red-500"></i> <strong>64</strong></small>
+                                    </span>
+                                    <span>
+                                      <small><i class="fa fa-share"></i> <strong>SHARED 345</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-eye c-green-500"></i> <strong>188</strong></small>
+                                    </span>
+                                  </span>
+                                  <span class="buttons">
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c mR-10">
+                                      <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                                    </span>
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                      <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">Post Idea</a>
+                                    </span>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <small>Westlake Chemical Corp. NYSE Updated Jun 21, 2021, 10:23 PM</small>
+                                </div>
+                                <div class="layer w-100">
+                                  <h1><strong>MSFT</strong> 92.97</h1>
+                                </div>
+                                <div class="layer w-100 mB-10">
+                                  <span class="mR-10">
+                                    <small class="c-green-500">
+                                      <i class="fa fa-level-up"></i> <strong>0.25(1.08%)</strong>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Post-Market</small>
+                                    <small class="c-red-500">
+                                      <span><i class="fa fa-level-down"></i> <strong>0.20(0.85%)</strong></span>
+                                    </small>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <span class="mR-10">
+                                    <small>Price</small>
+                                    <small class="c-green-500">
+                                      <strong>0.25(1.08%)</strong> <i class="fa fa-level-up"></i> 
+                                    </small>
+                                  </span>
+                                  <span class="mR-10">
+                                    <small>Sentiment</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i> </span>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Message Volume</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i></span>
+                                    </small>
+                                  </span>
+                                </div>
+                              </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                                <div class="layer w-100">
+                                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                        Price
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                                        Sentiment
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                        Message Volume
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="tab-content" id="myTabContent">
+                                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="layer w-100 p-20">
+                                      <canvas id="line-chart" height="220"></canvas>
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFour">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                <div class="layer w-100 d-flex flex-row justify-content-between mB-10">
+                                  <span class="icons">
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-up c-green-500"></i> <strong>123</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-down c-red-500"></i> <strong>64</strong></small>
+                                    </span>
+                                    <span>
+                                      <small><i class="fa fa-share"></i> <strong>SHARED 345</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-eye c-green-500"></i> <strong>188</strong></small>
+                                    </span>
+                                  </span>
+                                  <span class="buttons">
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c mR-10">
+                                      <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                                    </span>
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                      <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">Post Idea</a>
+                                    </span>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <small>Westlake Chemical Corp. NYSE Updated Jun 21, 2021, 10:23 PM</small>
+                                </div>
+                                <div class="layer w-100">
+                                  <h1><strong>TSLA</strong> 92.97</h1>
+                                </div>
+                                <div class="layer w-100 mB-10">
+                                  <span class="mR-10">
+                                    <small class="c-green-500">
+                                      <i class="fa fa-level-up"></i> <strong>0.25(1.08%)</strong>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Post-Market</small>
+                                    <small class="c-red-500">
+                                      <span><i class="fa fa-level-down"></i> <strong>0.20(0.85%)</strong></span>
+                                    </small>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <span class="mR-10">
+                                    <small>Price</small>
+                                    <small class="c-green-500">
+                                      <strong>0.25(1.08%)</strong> <i class="fa fa-level-up"></i> 
+                                    </small>
+                                  </span>
+                                  <span class="mR-10">
+                                    <small>Sentiment</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i> </span>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Message Volume</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i></span>
+                                    </small>
+                                  </span>
+                                </div>
+                              </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                              <div class="accordion-body">
+                                <div class="layer w-100">
+                                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                        Price
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                                        Sentiment
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                        Message Volume
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="tab-content" id="myTabContent">
+                                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="layer w-100 p-20">
+                                      <canvas id="line-chart" height="220"></canvas>
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class='col-md-6'>
+                    <div class="layers bd bgc-white p-20">
+                      <div class="layer w-100 mB-10">
+                        <span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c">SOCIAL TRENDS</span>
+                        <span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c rounded-pill">20</span>
+                      </div>
+                      <div class="layer w-100">
+                        <div class="accordion" id="accordionExample2">
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="stHeading1">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#stCollapseOne" aria-expanded="false" aria-controls="stCollapseOne">
+                                <div class="layer w-100 d-flex flex-row justify-content-between mB-10">
+                                  <span class="icons">
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-up c-green-500"></i> <strong>123</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-down c-red-500"></i> <strong>64</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-share"></i> <strong>SHARED 345</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-eye c-green-500"></i> <strong>188</strong></small>
+                                    </span>
+                                  </span>
+                                  <span class="buttons">
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c mR-10">
+                                      <a href="#" role="button"><i class="fa fa-plus"></i> Watchlist</a>
+                                    </span>
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c mR-10">
+                                      <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                                    </span>
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                      <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">Post Idea</a>
+                                    </span>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <small>Westlake Chemical Corp. NYSE Updated Jun 21, 2021, 10:23 PM</small>
+                                </div>
+                                <div class="layer w-100">
+                                  <h1><strong>WLK</strong> 92.97</h1>
+                                </div>
+                                <div class="layer w-100 mB-10">
+                                  <span class="mR-10">
+                                    <small class="c-green-500">
+                                      <i class="fa fa-level-up"></i> <strong>0.25(1.08%)</strong>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Post-Market</small>
+                                    <small class="c-red-500">
+                                      <span><i class="fa fa-level-down"></i> <strong>0.20(0.85%)</strong></span>
+                                    </small>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <span class="mR-10">
+                                    <small>Price</small>
+                                    <small class="c-green-500">
+                                      <strong>0.25(1.08%)</strong> <i class="fa fa-level-up"></i> 
+                                    </small>
+                                  </span>
+                                  <span class="mR-10">
+                                    <small>Sentiment</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i> </span>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Message Volume</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i></span>
+                                    </small>
+                                  </span>
+                                </div>
+                              </button>
+                            </h2>
+                            <div id="stCollapseOne" class="accordion-collapse collapse" aria-labelledby="stHeading1" data-bs-parent="#accordionExample2">
+                              <div class="accordion-body">
+                                <div class="layer w-100">
+                                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                        Price
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                                        Sentiment
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                        Message Volume
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="tab-content" id="myTabContent">
+                                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="layer w-100 p-20">
+                                      <canvas id="line-chart" height="220"></canvas>
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="stHeading2">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#stCollapseTwo" aria-expanded="false" aria-controls="stCollapseTwo">
+                                <div class="layer w-100 d-flex flex-row justify-content-between mB-10">
+                                  <span class="icons">
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-up c-green-500"></i> <strong>123</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-down c-red-500"></i> <strong>64</strong></small>
+                                    </span>
+                                    <span>
+                                      <small><i class="fa fa-share"></i> <strong>SHARED 345</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-eye c-green-500"></i> <strong>188</strong></small>
+                                    </span>
+                                  </span>
+                                  <span class="buttons">
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c mR-10">
+                                      <a href="#" role="button"><i class="fa fa-plus"></i> Watchlist</a>
+                                    </span>
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c mR-10">
+                                      <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                                    </span>
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                      <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">Post Idea</a>
+                                    </span>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <small>Westlake Chemical Corp. NYSE Updated Jun 21, 2021, 10:23 PM</small>
+                                </div>
+                                <div class="layer w-100">
+                                  <h1><strong>AAPL</strong> 92.97</h1>
+                                </div>
+                                <div class="layer w-100 mB-10">
+                                  <span class="mR-10">
+                                    <small class="c-green-500">
+                                      <i class="fa fa-level-up"></i> <strong>0.25(1.08%)</strong>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Post-Market</small>
+                                    <small class="c-red-500">
+                                      <span><i class="fa fa-level-down"></i> <strong>0.20(0.85%)</strong></span>
+                                    </small>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <span class="mR-10">
+                                    <small>Price</small>
+                                    <small class="c-green-500">
+                                      <strong>0.25(1.08%)</strong> <i class="fa fa-level-up"></i> 
+                                    </small>
+                                  </span>
+                                  <span class="mR-10">
+                                    <small>Sentiment</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i> </span>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Message Volume</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i></span>
+                                    </small>
+                                  </span>
+                                </div>
+                              </button>
+                            </h2>
+                            <div id="stCollapseTwo" class="accordion-collapse collapse" aria-labelledby="stHeading3" data-bs-parent="#accordionExample2">
+                              <div class="accordion-body">
+                                <div class="layer w-100">
+                                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                        Price
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                                        Sentiment
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                        Message Volume
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="tab-content" id="myTabContent">
+                                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="layer w-100 p-20">
+                                      <canvas id="line-chart" height="220"></canvas>
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="stHeading3">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#stCollapseThree" aria-expanded="false" aria-controls="stCollapseThree">
+                                <div class="layer w-100 d-flex flex-row justify-content-between mB-10">
+                                  <span class="icons">
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-up c-green-500"></i> <strong>123</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-down c-red-500"></i> <strong>64</strong></small>
+                                    </span>
+                                    <span>
+                                      <small><i class="fa fa-share"></i> <strong>SHARED 345</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-eye c-green-500"></i> <strong>188</strong></small>
+                                    </span>
+                                  </span>
+                                  <span class="buttons">
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c mR-10">
+                                      <a href="#" role="button"><i class="fa fa-plus"></i> Watchlist</a>
+                                    </span>
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c mR-10">
+                                      <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                                    </span>
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                      <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">Post Idea</a>
+                                    </span>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <small>Westlake Chemical Corp. NYSE Updated Jun 21, 2021, 10:23 PM</small>
+                                </div>
+                                <div class="layer w-100">
+                                  <h1><strong>MSFT</strong> 92.97</h1>
+                                </div>
+                                <div class="layer w-100 mB-10">
+                                  <span class="mR-10">
+                                    <small class="c-green-500">
+                                      <i class="fa fa-level-up"></i> <strong>0.25(1.08%)</strong>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Post-Market</small>
+                                    <small class="c-red-500">
+                                      <span><i class="fa fa-level-down"></i> <strong>0.20(0.85%)</strong></span>
+                                    </small>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <span class="mR-10">
+                                    <small>Price</small>
+                                    <small class="c-green-500">
+                                      <strong>0.25(1.08%)</strong> <i class="fa fa-level-up"></i> 
+                                    </small>
+                                  </span>
+                                  <span class="mR-10">
+                                    <small>Sentiment</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i> </span>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Message Volume</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i></span>
+                                    </small>
+                                  </span>
+                                </div>
+                              </button>
+                            </h2>
+                            <div id="stCollapseThree" class="accordion-collapse collapse" aria-labelledby="stHeading2" data-bs-parent="#accordionExample2">
+                              <div class="accordion-body">
+                                <div class="layer w-100">
+                                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                        Price
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                                        Sentiment
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                        Message Volume
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="tab-content" id="myTabContent">
+                                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="layer w-100 p-20">
+                                      <canvas id="line-chart" height="220"></canvas>
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="stHeading4">
+                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#stCollapseFour" aria-expanded="false" aria-controls="stCollapseFour">
+                                <div class="layer w-100 d-flex flex-row justify-content-between mB-10">
+                                  <span class="icons">
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-up c-green-500"></i> <strong>123</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-thumbs-down c-red-500"></i> <strong>64</strong></small>
+                                    </span>
+                                    <span>
+                                      <small><i class="fa fa-share"></i> <strong>SHARED 345</strong></small>
+                                    </span>
+                                    <span class="mR-10">
+                                      <small><i class="fa fa-eye c-green-500"></i> <strong>188</strong></small>
+                                    </span>
+                                  </span>
+                                  <span class="buttons">
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c mR-10">
+                                      <a href="#" role="button"><i class="fa fa-plus"></i> Watchlist</a>
+                                    </span>
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c mR-10">
+                                      <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                                    </span>
+                                    <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                                      <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">Post Idea</a>
+                                    </span>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <small>Westlake Chemical Corp. NYSE Updated Jun 21, 2021, 10:23 PM</small>
+                                </div>
+                                <div class="layer w-100">
+                                  <h1><strong>TSLA</strong> 92.97</h1>
+                                </div>
+                                <div class="layer w-100 mB-10">
+                                  <span class="mR-10">
+                                    <small class="c-green-500">
+                                      <i class="fa fa-level-up"></i> <strong>0.25(1.08%)</strong>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Post-Market</small>
+                                    <small class="c-red-500">
+                                      <span><i class="fa fa-level-down"></i> <strong>0.20(0.85%)</strong></span>
+                                    </small>
+                                  </span>
+                                </div>
+                                <div class="layer w-100">
+                                  <span class="mR-10">
+                                    <small>Price</small>
+                                    <small class="c-green-500">
+                                      <strong>0.25(1.08%)</strong> <i class="fa fa-level-up"></i> 
+                                    </small>
+                                  </span>
+                                  <span class="mR-10">
+                                    <small>Sentiment</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i> </span>
+                                    </small>
+                                  </span>
+                                  <span>
+                                    <small>Message Volume</small>
+                                    <small class="c-green-500">
+                                      <strong>0.20(0.85%)</strong> <span><i class="fa fa-level-up"></i></span>
+                                    </small>
+                                  </span>
+                                </div>
+                              </button>
+                            </h2>
+                            <div id="stCollapseFour" class="accordion-collapse collapse" aria-labelledby="stHeading4" data-bs-parent="#accordionExample2">
+                              <div class="accordion-body">
+                                <div class="layer w-100">
+                                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                        Price
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                                        Sentiment
+                                      </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                      <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                        Message Volume
+                                      </button>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <div class="tab-content" id="myTabContent">
+                                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="layer w-100 p-20">
+                                      <canvas id="line-chart" height="220"></canvas>
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                  <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    <div class="layer w-100 p-20">
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="masonry-item w-100">
+                <div class="row gap-20">
+                  <div class='col-md-12'>
+                    <div class="layers bd bgc-white p-20">
+                      <div class="layer w-100 mB-10">
+                        <span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c">TRADE BOOK</span>
+                      </div>
+                      <div class="layer w-100 mB-10">
+                        <button class="btn btn-outline-primary" onclick="addRow()">Add new row</button>
+                        <div id="tb-content"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="modalCreateAlert" aria-labelledby="modalCreateAlertLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 id="modalCreateAlertLabel" class="modal-title">Create Alert</h5>
+                  <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="mb-3">
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <input type="text" class="form-control" placeholder="SYMBOL: SELECTED" disabled="disabled">
+                            <hr>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">RELATIVE STRENGTH INDEX</label>
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <input type="number" class="form-control" id="rsi-1" placeholder="< number">
+                          </div>
+                          <div class="col-sm-6">
+                            <input type="number" class="form-control" id="rsi-1" placeholder="> number">
+                          </div>
+                          <div class="col-sm-12 mT-10">
+                            <a class="btn btn-sm btn-primary pull-right c-gray-50">ALERT</a>
+                          </div>
+                          <div class="col-sm-12">
+                            <hr>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">SMA CROSSOVER</label>
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <input type="number" class="form-control" id="rsi-1" placeholder="< number">
+                          </div>
+                          <div class="col-sm-6">
+                            <input type="number" class="form-control" id="rsi-1" placeholder="> number">
+                          </div>
+                          <div class="col-sm-12 mT-10">
+                            <a class="btn btn-sm btn-primary pull-right c-gray-50">ALERT</a>
+                          </div>
+                          <div class="col-sm-12">
+                            <hr>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">PATTERN ALERT</label>
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <input type="number" class="form-control" id="rsi-1" placeholder="< number">
+                          </div>
+                          <div class="col-sm-6">
+                            <input type="number" class="form-control" id="rsi-1" placeholder="> number">
+                          </div>
+                          <div class="col-sm-12 mT-10">
+                            <a class="btn btn-sm btn-primary pull-right c-gray-50">ALERT</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="modalPostTradeIdea" aria-labelledby="modalPostTradeIdeaLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 id="modalPostTradeIdeaLabel" class="modal-title">post idea</h5>
+                  <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <script>
+      var arrHead = new Array();  // array for header.
+    arrHead = ['', 'Symbol', 'Open', 'Closed', 'Stocks', 'Options', 'Strategy', 'Return', 'Text'];
+
+    // first create TABLE structure with the headers. 
+    function createTable() {
+        var empTable = document.createElement('table');
+        empTable.setAttribute('id', 'empTable'); // table id.
+        empTable.setAttribute('width', '100%');
+        empTable.setAttribute('border', '1')
+
+        var tr = empTable.insertRow(-1);
+        for (var h = 0; h < arrHead.length; h++) {
+            var th = document.createElement('th'); // create table headers
+            th.innerHTML = arrHead[h];
+            tr.appendChild(th);
+        }
+
+        var div = document.getElementById('tb-content');
+        div.appendChild(empTable);  // add the TABLE to the container.
+    }
+
+    // now, add a new to the TABLE.
+    function addRow() {
+        var empTab = document.getElementById('empTable');
+
+        var rowCnt = empTab.rows.length;   // table row count.
+        var tr = empTab.insertRow(rowCnt); // the table row.
+        tr = empTab.insertRow(rowCnt);
+
+        for (var c = 0; c < arrHead.length; c++) {
+            var td = document.createElement('td'); // table definition.
+            td = tr.insertCell(c);
+
+            if (c == 0) {      // the first column.
+                // add a button in every new row in the first column.
+                var button = document.createElement('input');
+
+                // set input attributes.
+                button.setAttribute('type', 'button');
+                button.setAttribute('value', 'Remove');
+
+                // add button's 'onclick' event.
+                button.setAttribute('onclick', 'removeRow(this)');
+
+                td.appendChild(button);
+            }
+            else {
+                // 2nd, 3rd and 4th column, will have textbox.
+                var ele = document.createElement('input');
+                ele.setAttribute('type', 'text');
+                ele.setAttribute('value', '');
+
+                td.appendChild(ele);
+            }
+        }
+    }
+
+    // delete TABLE row function.
+    function removeRow(oButton) {
+        var empTab = document.getElementById('empTable');
+        empTab.deleteRow(oButton.parentNode.parentNode.rowIndex); // button -> td -> tr.
+    }
+
+    // function to extract and submit table data.
+    function submit() {
+        var myTab = document.getElementById('empTable');
+        var arrValues = new Array();
+
+        // loop through each row of the table.
+        for (row = 1; row < myTab.rows.length - 1; row++) {
+          // loop through each cell in a row.
+            for (c = 0; c < myTab.rows[row].cells.length; c++) {  
+                var element = myTab.rows.item(row).cells[c];
+                if (element.childNodes[0].getAttribute('type') == 'text') {
+                    arrValues.push("'" + element.childNodes[0].value + "'");
+                }
+            }
+        }
+        
+        // The final output.
+        document.getElementById('output').innerHTML = arrValues;
+        //console.log (arrValues);   // you can see the array values in your browsers console window. Thanks :-) 
+    }
+    </script>
+  </body>
+</html>

@@ -23,6 +23,10 @@ const titles = {
   '500': '500',
   'basic-table': 'Basic Table',
   'test': 'Test',
+  'dashboard': 'Dashboard',
+  'chatbox': 'Chat',
+  'intro': 'Home',
+  'details': 'Stock Details'
 };
 
 module.exports = Object.keys(titles).map(title => {

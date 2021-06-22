@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Dashboard</title>
+    <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"  rel="stylesheet">
+    <style>
+      #loader {
+        transition: all 0.3s ease-in-out;
+        opacity: 1;
+        visibility: visible;
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        background: #fff;
+        z-index: 90000;
+      }
+
+      #loader.fadeOut {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .spinner {
+        width: 40px;
+        height: 40px;
+        position: absolute;
+        top: calc(50% - 20px);
+        left: calc(50% - 20px);
+        background-color: #333;
+        border-radius: 100%;
+        -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+        animation: sk-scaleout 1.0s infinite ease-in-out;
+      }
+
+      @-webkit-keyframes sk-scaleout {
+        0% { -webkit-transform: scale(0) }
+        100% {
+          -webkit-transform: scale(1.0);
+          opacity: 0;
+        }
+      }
+
+      @keyframes sk-scaleout {
+        0% {
+          -webkit-transform: scale(0);
+          transform: scale(0);
+        } 100% {
+          -webkit-transform: scale(1.0);
+          transform: scale(1.0);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body class="app" onload="createTable()">
+    <!-- @TOC -->
+    <!-- =================================================== -->
+    <!--
+      + @Page Loader
+      + @App Content
+          - #Left Sidebar
+              > $Sidebar Header
+              > $Sidebar Menu
+
+          - #Main
+              > $Topbar
+              > $App Screen Content
+    -->
+
+    <!-- @Page Loader -->
+    <!-- =================================================== -->
+    <div id='loader'>
+      <div class="spinner"></div>
+    </div>
+
+    <script>
+      window.addEventListener('load', function load() {
+        const loader = document.getElementById('loader');
+        setTimeout(function() {
+          loader.classList.add('fadeOut');
+        }, 300);
+      });
+    </script>
+
+    <!-- @App Content -->
+    <!-- =================================================== -->
+    <div>
+      <!-- #Main ============================ -->
+      <div class="page-container">
+        <div class="header navbar">
+          <div class="header-container">
+            <ul class="nav-left">
+              <li>
+                <a id='sidebar-toggle' class="sidebar-toggle" href="javascript:void(0);">
+                  <i class="ti-menu"></i>
+                </a>
+              </li>
+
+            </ul>
+            <ul class="nav-right">
+              <li class="notifications dropdown">
+                <span class="counter bgc-red">3</span>
+                <a href="" class="dropdown-toggle no-after" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="ti-bell"></i>
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1"> 
+                  <li class="pX-20 pY-15 bdB">
+                    <i class="ti-bell pR-10"></i>
+                    <span class="fsz-sm fw-600 c-grey-900">Notifications</span>
+                  </li>
+                  <li>
+                    <ul class="ovY-a pos-r scrollable lis-n p-0 m-0 fsz-sm">
+                      <li>
+                        <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
+                          <div class="peer mR-15">
+                            <img class="w-3r bdrs-50p" src="https://randomuser.me/api/portraits/men/1.jpg" alt="">
+                          </div>
+                          <div class="peer peer-greed">
+                            <span>
+                              <span class="fw-500">John Doe</span>
+                              <span class="c-grey-600">liked your <span class="text-dark">post</span>
+                              </span>
+                            </span>
+                            <p class="m-0">
+                              <small class="fsz-xs">5 mins ago</small>
+                            </p>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
+                          <div class="peer mR-15">
+                            <img class="w-3r bdrs-50p" src="https://randomuser.me/api/portraits/men/2.jpg" alt="">
+                          </div>
+                          <div class="peer peer-greed">
+                            <span>
+                              <span class="fw-500">Moo Doe</span>
+                              <span class="c-grey-600">liked your <span class="text-dark">cover image</span>
+                              </span>
+                            </span>
+                            <p class="m-0">
+                              <small class="fsz-xs">7 mins ago</small>
+                            </p>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
+                          <div class="peer mR-15">
+                            <img class="w-3r bdrs-50p" src="https://randomuser.me/api/portraits/men/3.jpg" alt="">
+                          </div>
+                          <div class="peer peer-greed">
+                            <span>
+                              <span class="fw-500">Lee Doe</span>
+                              <span class="c-grey-600">commented on your <span class="text-dark">video</span>
+                              </span>
+                            </span>
+                            <p class="m-0">
+                              <small class="fsz-xs">10 mins ago</small>
+                            </p>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="pX-20 pY-15 ta-c bdT">
+                    <span>
+                      <a href="" class="c-grey-600 cH-blue fsz-sm td-n">View All Notifications <i class="ti-angle-right fsz-xs mL-10"></i></a>
+                    </span>
+                  </li>
+                </ul>
+              </li>
+              <li class="notifications dropdown">
+                <span class="counter bgc-blue">3</span>
+                <a href="" class="dropdown-toggle no-after" data-bs-toggle="dropdown">
+                  <i class="ti-email"></i>
+                </a>
+
+                <ul class="dropdown-menu">
+                  <li class="pX-20 pY-15 bdB">
+                    <i class="ti-email pR-10"></i>
+                    <span class="fsz-sm fw-600 c-grey-900">Emails</span>
+                  </li>
+                  <li>
+                    <ul class="ovY-a pos-r scrollable lis-n p-0 m-0 fsz-sm">
+                      <li>
+                        <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
+                          <div class="peer mR-15">
+                            <img class="w-3r bdrs-50p" src="https://randomuser.me/api/portraits/men/1.jpg" alt="">
+                          </div>
+                          <div class="peer peer-greed">
+                            <div>
+                              <div class="peers jc-sb fxw-nw mB-5">
+                                <div class="peer">
+                                  <p class="fw-500 mB-0">John Doe</p>
+                                </div>
+                                <div class="peer">
+                                  <small class="fsz-xs">5 mins ago</small>
+                                </div>
+                              </div>
+                              <span class="c-grey-600 fsz-sm">
+                                Want to create your own customized data generator for your app...
+                              </span>
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
+                          <div class="peer mR-15">
+                            <img class="w-3r bdrs-50p" src="https://randomuser.me/api/portraits/men/2.jpg" alt="">
+                          </div>
+                          <div class="peer peer-greed">
+                            <div>
+                              <div class="peers jc-sb fxw-nw mB-5">
+                                <div class="peer">
+                                  <p class="fw-500 mB-0">Moo Doe</p>
+                                </div>
+                                <div class="peer">
+                                  <small class="fsz-xs">15 mins ago</small>
+                                </div>
+                              </div>
+                              <span class="c-grey-600 fsz-sm">
+                                Want to create your own customized data generator for your app...
+                              </span>
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+                      <li>
+                        <a href="" class='peers fxw-nw td-n p-20 bdB c-grey-800 cH-blue bgcH-grey-100'>
+                          <div class="peer mR-15">
+                            <img class="w-3r bdrs-50p" src="https://randomuser.me/api/portraits/men/3.jpg" alt="">
+                          </div>
+                          <div class="peer peer-greed">
+                            <div>
+                              <div class="peers jc-sb fxw-nw mB-5">
+                                <div class="peer">
+                                  <p class="fw-500 mB-0">Lee Doe</p>
+                                </div>
+                                <div class="peer">
+                                  <small class="fsz-xs">25 mins ago</small>
+                                </div>
+                              </div>
+                              <span class="c-grey-600 fsz-sm">
+                                Want to create your own customized data generator for your app...
+                              </span>
+                            </div>
+                          </div>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="pX-20 pY-15 ta-c bdT">
+                    <span>
+                      <a href="email.html" class="c-grey-600 cH-blue fsz-sm td-n">View All Email <i class="fs-xs ti-angle-right mL-10"></i></a>
+                    </span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- ### $App Screen Content ### -->
+        <main class='main-content bgc-grey-100'>
+          <div id='mainContent'>
+            <div class="row gap-20 masonry pos-r">
+              <div class="masonry-sizer col-md-6"></div>
+              <div class="masonry-item col-12">
+                <div class="bd bgc-white">
+                  <div class="peers fxw-nw@lg+ ai-s">
+                    <div class="peer peer-greed w-70p@lg+ w-100@lg- p-20">
+                      <div class="layers">
+                        <div class="layer w-100">
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">STOCKS &amp; ETF</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">CRYPTO</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c pull-right">MY ACCOUNT</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c pull-right">WIDGETS</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c pull-right"><a href="dashboard.html">MY DASHBOARD</a></span>
+                          <hr>
+                        </div>
+                        <div class="layer w-100 mB-2">
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">INDICES</span>
+                          <hr>
+                        </div>
+                        <div class="layer w-100">
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">SOCIAL TRENDS</span>
+                          <hr>
+                        </div>
+                        <div class="layer w-100">
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">MY DASHBOARD</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">TRADE BOOK</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">TRADE IDEAS</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">TRADE ALERTS</span>
+                          <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c"><a href="chatbox.html">CHAT BOX</a></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="masonry-item col-12">
+                <div class="bd bgc-white">
+                  <div class="peers fxw-nw@lg+ ai-s">
+                    <div class="peer peer-greed w-70p@lg+ w-100@lg- p-20">
+                      <div class="layers">
+                        <img src="assets/static/images/details-bg.png" alt="" width="100%">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mT-20">
+              <div class="masonry-item col-6">
+                <div class="bd bgc-white">
+                  <div class="peers fxw-nw@lg+ ai-s">
+                    <div class="peer peer-greed w-70p@lg+ w-100@lg- p-20">
+                      <div class="layers">
+                        <div class="layer w-100 mB-10">
+                          <span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c">LIVE STREAM ON - MARKETS OPEN</span>
+                        </div>
+                        <div class="layer w-100 d-flex flex-row justify-content-between mB-10">
+                          <span class="icons">
+                            <span class="mR-10">
+                              <small><i class="fa fa-thumbs-up c-green-500"></i> <strong>123</strong></small>
+                            </span>
+                            <span class="mR-10">
+                              <small><i class="fa fa-thumbs-down c-red-500"></i> <strong>64</strong></small>
+                            </span>
+                            <span class="mR-10">
+                              <small><i class="fa fa-share"></i> <strong>SHARED 345</strong></small>
+                            </span>
+                            <span>
+                              <small><i class="fa fa-eye c-green-500"></i> <strong>188</strong></small>
+                            </span>
+                          </span>
+                          <span class="buttons">
+                            <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c mR-10">
+                              <a href="#modalCreateAlert" data-bs-toggle="modal" role="button">Create Alert</a>
+                            </span>
+                            <span class="bgc-grey-50 c-deep-purple-700 badge p-10 lh-0 tt-c">
+                              <a href="#modalPostTradeIdea" data-bs-toggle="modal" role="button">Post Idea</a>
+                            </span>
+                          </span>
+                        </div>
+                        <div class="layer w-100">
+                          <small>Westlake Chemical Corp. NYSE Updated Jun 21, 2021, 10:23 PM</small>
+                        </div>
+                        <div class="layer w-100">
+                          <h1><strong>TSLA</strong> 92.97</h1>
+                        </div>
+                        <div class="layer w-100 mB-10">
+                          <span class="mR-10">
+                            <small class="c-green-500">
+                              <i class="fa fa-level-up"></i> <strong>0.25(1.08%)</strong>
+                            </small>
+                          </span>
+                          <span>
+                            <small>Post-Market</small>
+                            <small class="c-red-500">
+                              <span><i class="fa fa-level-down"></i> <strong>0.20(0.85%)</strong></span>
+                            </small>
+                          </span>
+                        </div>
+                        <div class="layer w-100">
+                          <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">
+                                Price
+                              </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+                                Sentiment
+                              </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                              <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                Message Volume
+                              </button>
+                            </li>
+                          </ul>
+                          <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                              <div class="layer w-100 p-20">
+                                <canvas id="line-chart" height="220"></canvas>
+                              </div>
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                              <div class="layer w-100 p-20">
+                              </div>
+                            </div>
+                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                              <div class="layer w-100 p-20">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="masonry-item col-3">
+                <div class="bd bgc-white">
+                  <div class="peers fxw-nw@lg+ ai-s">
+                    <div class="peer peer-greed w-70p@lg+ w-100@lg- p-20">
+                      <div class="layers">
+                        <div class="layer w-100 mB-10">
+                          <span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c">DAILY POLL</span>
+                        </div>
+                        <div class="layer w-100 mB-10 d-flex justify-content-between">
+                          <a class="btn btn-success btn-sm">
+                            BUY
+                          </a>
+                          <a class="btn btn-danger btn-sm">
+                            SELL
+                          </a>
+                          <a class="btn btn-warning btn-sm">HOLD</a>
+                        </div>
+                        <div class="layer w-100 mB-10">
+                          <div class="peers pT-20 mT-20 bdT fxw-nw@lg+ jc-sb ta-c gap-10">
+                            <div class="peer">
+                              <div class="easy-pie-chart" data-size='70' data-percent="64" data-bar-color='#f44336'>
+                                <span></span>
+                              </div>
+                              <h6 class="fsz-sm">BUY</h6>
+                            </div>
+                            <div class="peer">
+                              <div class="easy-pie-chart" data-size='70' data-percent="25" data-bar-color='#2196f3'>
+                                <span></span>
+                              </div>
+                              <h6 class="fsz-sm">SELL</h6>
+                            </div>
+                            <div class="peer">
+                              <div class="easy-pie-chart" data-size='70' data-percent="11" data-bar-color='#FFEB3B'>
+                                <span></span>
+                              </div>
+                              <h6 class="fsz-sm">HOLD</h6>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="layer w-100">
+                          <h6>YESTERDAY'S POLL RESULT</h6>
+                          <small class="d-flex justify-content-between">
+                            <span class="c-green-500">
+                              64% BUY
+                            </span>
+                            <span class="c-red-500">
+                              25% SELL
+                            </span>
+                            <span class="c-yellow-500">
+                              11% HOLD
+                            </span>
+                          </small>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="masonry-item col-3">
+                <div class="bd bgc-white">
+                  <div class="peers fxw-nw@lg+ ai-s">
+                    <div class="peer peer-greed w-70p@lg+ w-100@lg- p-20">
+                      <div class="layers">
+                        <div class="layer w-100 mB-10">
+                          <span class="badge bgc-deep-purple-50 c-deep-purple-700 p-10 lh-0 tt-c">LIVE TALK</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="modalCreateAlert" aria-labelledby="modalCreateAlertLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 id="modalCreateAlertLabel" class="modal-title">Create Alert</h5>
+                  <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="mb-3">
+                      <div class="form-group">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <input type="text" class="form-control" placeholder="SYMBOL: SELECTED" disabled="disabled">
+                            <hr>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">RELATIVE STRENGTH INDEX</label>
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <input type="number" class="form-control" id="rsi-1" placeholder="< number">
+                          </div>
+                          <div class="col-sm-6">
+                            <input type="number" class="form-control" id="rsi-1" placeholder="> number">
+                          </div>
+                          <div class="col-sm-12 mT-10">
+                            <a class="btn btn-sm btn-primary pull-right c-gray-50">ALERT</a>
+                          </div>
+                          <div class="col-sm-12">
+                            <hr>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">SMA CROSSOVER</label>
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <input type="number" class="form-control" id="rsi-1" placeholder="< number">
+                          </div>
+                          <div class="col-sm-6">
+                            <input type="number" class="form-control" id="rsi-1" placeholder="> number">
+                          </div>
+                          <div class="col-sm-12 mT-10">
+                            <a class="btn btn-sm btn-primary pull-right c-gray-50">ALERT</a>
+                          </div>
+                          <div class="col-sm-12">
+                            <hr>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label">PATTERN ALERT</label>
+                        <div class="row">
+                          <div class="col-sm-6">
+                            <input type="number" class="form-control" id="rsi-1" placeholder="< number">
+                          </div>
+                          <div class="col-sm-6">
+                            <input type="number" class="form-control" id="rsi-1" placeholder="> number">
+                          </div>
+                          <div class="col-sm-12 mT-10">
+                            <a class="btn btn-sm btn-primary pull-right c-gray-50">ALERT</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal fade" id="modalPostTradeIdea" aria-labelledby="modalPostTradeIdeaLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 id="modalPostTradeIdeaLabel" class="modal-title">post idea</h5>
+                  <button class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>

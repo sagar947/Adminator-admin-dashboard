@@ -4,3 +4,32 @@
 @import 'spec/index';
 @import 'vendor/index';
 
+a {
+	color: #512da8;
+}
+
+.h-100vh {
+	height: 100vh;
+}
+
+.accordion-button {
+	display: unset !important;
+}
+
+.dataTables_length, .dataTables_info {
+	display: none;
+}
+
+button {
+	&:focus {
+		box-shadow: unset !important;
+		-webkit-box-shadow: unset !important;
+	}
+}
+
+.buttons {
+	a {
+		text-transform: uppercase;
+		font-size: 80%;
+	}
+}
