@@ -27,7 +27,11 @@ const titles = {
   'chatbox': 'Chat',
   'intro': 'Home',
   'details': 'Stock Details',
-  'tradebook': 'Trade book'
+  'tradebook': 'Trade book',
+  'tradeideas': 'Trade Ideas',
+  'crypto': 'Cryptocurrency',
+  'tradealerts': 'TAlerts',
+  'indices': 'Indices'
 };
 
 module.exports = Object.keys(titles).map(title => {
