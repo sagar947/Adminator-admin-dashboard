@@ -30,9 +30,7 @@ const titles = {
   'tradebook': 'Trade book',
   'tradeideas': 'Trade Ideas',
   'crypto': 'Cryptocurrency',
-  'tradealerts': 'TAlerts',
-  'indices': 'Indices',
-  'dashx': 'DASHX'
+  'indices': 'Indices'
 };
 
 module.exports = Object.keys(titles).map(title => {
