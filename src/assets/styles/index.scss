@@ -4,6 +4,7 @@
 @import 'spec/index';
 @import 'vendor/index';
 
+
 a {
 	color: #000000;
 }
@@ -12,6 +13,10 @@ a {
 	color: #000000;
 }
 
+small {
+    font-size: .65em;
+    
+}
 .h-100vh {
 	height: 100vh;
 }
