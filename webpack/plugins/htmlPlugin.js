@@ -12,7 +12,7 @@ const titles = {
   'chat': 'Chat',
   'compose': 'Compose',
   'datatable': 'Datatable',
-  'email': 'Email',
+  'email': 'Dashboard',
   'forms': 'Forms',
   'google-maps': 'Google Maps',
   'signin': 'Signin',
