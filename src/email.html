@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Dashboard</title>
+    <title>DASHBOARD</title>
     <style>
       #loader {
         transition: all 0.3s ease-in-out;
@@ -89,7 +89,48 @@
     <!-- =================================================== -->
     <div>
       <!-- #Left Sidebar ==================== -->
-      
+      <div class="sidebar">
+        <div class="sidebar-inner">
+          <!-- ### $Sidebar Header ### -->
+          <div class="sidebar-logo">
+            <div class="peers ai-c fxw-nw">
+              <div class="peer peer-greed">
+                <a class="sidebar-link td-n" href="index.html">
+                  <div class="peers ai-c fxw-nw">
+                    <div class="peer">
+                      <div class="logo">
+                        
+                      </div>
+                    </div>
+                    <div class="peer peer-greed">
+                      <h5 class="lh-1 mB-0 logo-text">PROJECT Z</h5>
+                    </div>
+                  </div>
+                </a>
+              </div>
+              <div class="peer">
+                <div class="mobile-toggle sidebar-toggle">
+                  <a href="" class="td-n">
+                    <i class="ti-arrow-circle-left"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ### $Sidebar Menu ### -->
+          <ul class="sidebar-menu scrollable pos-r">
+            <li class="nav-item mT-30 actived">
+              <a class="sidebar-link" href="index.html">
+                <span class="icon-holder">
+                  <i class="c-blue-500 ti-home"></i>
+                </span>
+                <span class="title">Dashboard</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
 
       <!-- #Main ============================ -->
       <div class="page-container">
@@ -102,7 +143,15 @@
                   <i class="ti-menu"></i>
                 </a>
               </li>
-              
+              <li class="search-box">
+                <a class="search-toggle no-pdd-right" href="javascript:void(0);">
+                  <i class="search-icon ti-search pdd-right-10"></i>
+                  <i class="search-icon-close ti-close pdd-right-10"></i>
+                </a>
+              </li>
+              <li class="search-input">
+                <input class="form-control" type="text" placeholder="Search...">
+              </li>
             </ul>
             <ul class="nav-right">
               <li class="notifications dropdown">
@@ -255,7 +304,7 @@
                   </li>
                   <li class="pX-20 pY-15 ta-c bdT">
                     <span>
-                      <a href="email.html" class="c-blue-500 cH-blue badge "> VIEW ALL TRADE ALERTS <i class="fs-xs ti-angle-right mL-10"></i></a>
+                      <a href="#" class="c-blue-500 cH-blue badge "> VIEW ALL TRADE ALERTS <i class="fs-xs ti-angle-right mL-10"></i></a>
                     </span>
                   </li>
                 </ul>
@@ -350,7 +399,7 @@
                     </a>
                   </li>
                   <li>
-                    <a href="email.html" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
+                    <a href="#" class="d-b td-n pY-5 bgcH-grey-100 c-grey-700">
                       <i class="ti-email mR-10"></i>
                       <span>Messages</span>
                     </a>
@@ -465,7 +514,7 @@
               <div class="email-wrapper row remain-height bgc-white ov-h">
                 <div class="email-list h-100 layers">
                   <div class="layer w-100">
-                    
+                     
                   </div>
                   <div class="layer w-100">
                     <div class="bdT bdB">
@@ -474,6 +523,63 @@
                   </div>
                   <div class="layer w-100 fxg-1 scrollable pos-r">
                     <div class="">
+                      <div class="layer w-100">
+                    <div class="bgc-white-100 peers ai-c jc-sb pY-15 pX-20 fxw-nw">
+                      <div class="peer">
+                        <div class="btn-group" role="group">
+                          <button type="button" class="email-side-toggle d-n@md+ btn bgc-white bdrs-2 mR-3 cur-p">
+                            <i class="ti-menu"></i>
+                          </button>
+                          <button type="button" class="btn bgc-white bdrs-2 mR-3 cur-p">
+                            <i class="ti-folder"></i>
+                          </button>
+                          <button type="button" class="btn bgc-white bdrs-2 mR-3 cur-p">
+                            <i class="ti-tag"></i>
+                          </button>
+                          <div class="btn-group" role="group">
+                            <button id="btnGroupDrop1" type="button" class="btn cur-p bgc-white no-after dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="ti-more-alt"></i>
+                            </button>
+                            <ul class="dropdown-menu fsz-sm" aria-labelledby="btnGroupDrop1">
+                              <li>
+                                <a href="" class="d-b td-n pY-5 pX-10 bgcH-grey-100 c-grey-700">
+                                  <i class="ti-trash mR-10"></i>
+                                  <span>Delete</span>
+                                </a>
+                              </li>
+                              <li>
+                                <a href="" class="d-b td-n pY-5 pX-10 bgcH-grey-100 c-grey-700">
+                                  <i class="ti-alert mR-10"></i>
+                                  <span>Mark as Spam</span>
+                                </a>
+                              </li>
+                              <li>
+                                <a href="" class="d-b td-n pY-5 pX-10 bgcH-grey-100 c-grey-700">
+                                  <i class="ti-star mR-10"></i>
+                                  <span>Star</span>
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="peer">
+                        <div class="btn-group" role="group">
+                          <button type="button" class="fsz-xs btn bgc-white bdrs-2 mR-3 cur-p">
+                            <i class="ti-angle-left"></i>
+                          </button>
+                          <button type="button" class="fsz-xs btn bgc-white bdrs-2 mR-3 cur-p">
+                            <i class="ti-angle-right"></i>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="layer w-100">
+                    <div class="bdT bdB">
+                      <input type="text" class="form-control m-0 bdw-0 pY-15 pX-20" placeholder="Search...">
+                    </div>
+                  </div>
                       <div class="email-list-item peers fxw-nw p-20 bdB bgcH-grey-100 cur-p">
                         <div class="peer peer-greed ov-h">
                          

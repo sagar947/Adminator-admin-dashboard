@@ -4,7 +4,9 @@
 @import 'spec/index';
 @import 'vendor/index';
 
-
+body {
+ font-size: 80%;
+}
 a {
 	color: #000000;
 }
@@ -24,8 +26,17 @@ h6 {
 
   }
 
+.nav-left {
+	margin-left:0px !important;
+}
 .c-black {
 	color: #000000;
+}
+.email-wrapper .email-list {
+	width:46%;
+}
+.email-wrapper .email-content {
+	width:54%;
 }
 
 small {
